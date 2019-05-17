@@ -1,5 +1,6 @@
 name "simple"
 targetType "dynamicLibrary"
+dependency "autowrap:csharp" path="../../"
 dependency "autowrap:python" path="../../"
 
 configuration "python37" {

@@ -2,12 +2,13 @@
 
 DUB_CONFIGURATION ?= python37
 
-.PHONY: test test_simple test_issues test_pyd test_numpy examples/simple/libsimple.so examples/issues/libissues.so examples/pyd/libpydtests.so examples/numpy/libnumpy.so
+.PHONY: test test_simple test_simple_py test_simple_cs test_issues test_pyd test_numpy examples/simple/libsimple.so examples/issues/libissues.so examples/pyd/libpydtests.so examples/numpy/libnumpy.so
 
 all: test
 test: test_simple test_issues test_pyd test_numpy
+test_simple: test_simple_py test_simple_cs
 
-test_simple: tests/test_simple.py examples/simple/simple.so
+test_simple_py: tests/test_simple.py examples/simple/simple.so
 	PYTHONPATH=$(PWD)/examples/simple pytest -s -vv tests/test_simple.py
 
 examples/simple/simple.so: examples/simple/libsimple.so
@@ -54,3 +55,5 @@ examples/numpy/libnumpy.so: examples/numpy/dub.sdl examples/numpy/dub.selections
 
 example/numpy/dub.selections.json:
 	@cd examples/numpy && dub upgrade -q
+
+test_simple_cs: examples/simple/simple.so
