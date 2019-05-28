@@ -1,5 +1,6 @@
+import std.typecons: Yes, No;
 import autowrap.csharp;
-import autowrap.python;
+import autowrap.reflection;
 
 immutable Modules modules = Modules(Module("prefix"),
                                     Module("adder"),
@@ -8,18 +9,23 @@ immutable Modules modules = Modules(Module("prefix"),
                                     Module("api"),
                                     Module("wrap_all", Yes.alwaysExport));
 
-mixin(
-    wrapAll(
-        autowrap.python.LibraryName("simple"),
-        modules
-    )
-);
+version(EmitCSharp) {}
+else
+{
+    import autowrap.python;
+    mixin(
+        wrapAll(
+            autowrap.python.LibraryName("simple"),
+            modules
+        )
+    );
+}
 
 mixin(
     wrapCSharp(
         modules,
-        OutputFileName("simple.cs"),
+        OutputFileName("Simple.cs"),
         autowrap.csharp.LibraryName("simple"),
-        RootNamespace("Autowrap.CSharp.Tests.simple")
+        RootNamespace("Autowrap.CSharp.Examples.Simple")
     )
 );

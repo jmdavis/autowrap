@@ -1,24 +1,33 @@
 name "simple"
 targetType "dynamicLibrary"
 dependency "autowrap:csharp" path="../../"
-dependency "autowrap:python" path="../../"
 
 configuration "python37" {
+    dependency "autowrap:python" path="../../"
     subConfiguration "autowrap:python" "python37"
 }
 
 configuration "python36" {
+    dependency "autowrap:python" path="../../"
     subConfiguration "autowrap:python" "python36"
 }
 
 configuration "python33" {
+    dependency "autowrap:python" path="../../"
     subConfiguration "autowrap:python" "python33"
 }
 
 configuration "python27" {
+    dependency "autowrap:python" path="../../"
     subConfiguration "autowrap:python" "python27"
 }
 
 configuration "env" {
+    dependency "autowrap:python" path="../../"
     subConfiguration "autowrap:python" "env"
+}
+
+configuration "emitCSharp" {
+    targetType "executable"
+    versions "EmitCSharp"
 }
