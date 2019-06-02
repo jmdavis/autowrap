@@ -10,6 +10,7 @@ test_simple: test_simple_py test_simple_cs
 
 clean:
 	@rm examples/*/*.so examples/simple/simple examples/simple/Simple.cs
+	@rm -rf tests/*/bin tests/*/obj
 
 test_simple_py: tests/test_simple.py examples/simple/simple.so
 	PYTHONPATH=$(PWD)/examples/simple pytest -s -vv tests/test_simple.py
