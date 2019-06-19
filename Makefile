@@ -9,6 +9,7 @@ test: test_simple_pyd test_issues test_pyd test_numpy test_simple_pynih test_sim
 
 clean:
 	@rm -f examples/*/*.so examples/simple/lib/*/*.so examples/simple/simple examples/simple/Simple.cs
+	@rm -rf tests/*/bin tests/*/obj
 
 test_simple_pyd: tests/test_simple.py examples/simple/lib/pyd/simple.so
 	PYTHONPATH=$(PWD)/examples/simple/lib/pyd pytest -s -vv tests/test_simple.py
