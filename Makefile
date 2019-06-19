@@ -2,10 +2,10 @@
 
 DUB_CONFIGURATION ?= python37
 
-.PHONY: test test_simple_pyd test_simple_pynih test_issues test_pyd test_numpy examples/simple/lib/pyd/libsimple.so examples/simple/lib/pynih/libsimple.so examples/issues/libissues.so examples/pyd/libpydtests.so examples/numpy/libnumpy.so
+.PHONY: test test_simple_pyd test_simple_pynih test_simple_csharp test_issues test_pyd test_numpy examples/simple/lib/pyd/libsimple.so examples/simple/lib/pynih/libsimple.so examples/simple/lib/csharp/libsimple.so examples/issues/libissues.so examples/pyd/libpydtests.so examples/numpy/libnumpy.so
 
 all: test
-test: test_simple_pyd test_issues test_pyd test_numpy test_simple_pynih
+test: test_simple_pyd test_issues test_pyd test_numpy test_simple_pynih test_simple_cs
 
 test_simple_pyd: tests/test_simple.py examples/simple/lib/pyd/simple.so
 	PYTHONPATH=$(PWD)/examples/simple/lib/pyd pytest -s -vv tests/test_simple.py
@@ -27,6 +27,14 @@ examples/simple/lib/pynih/simple.so: examples/simple/lib/pynih/libsimple.so
 
 examples/simple/lib/pynih/libsimple.so: examples/simple/dub.sdl examples/simple/dub.selections.json
 	@cd examples/simple && dub build -q -c pynih
+
+test_simple_cs: examples/simple/lib/csharp/simple.so
+
+examples/simple/lib/csharp/simple.so: examples/simple/lib/csharp/libsimple.so
+	@cp $^ $@
+
+examples/simple/lib/csharp/libsimple.so: examples/simple/dub.sdl examples/simple/dub.selections.json
+	@cd examples/simple && dub build -q -c csharp
 
 examples/simple/dub.selections.json:
 	@cd examples/simple && dub upgrade -q

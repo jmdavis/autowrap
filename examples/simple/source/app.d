@@ -1,31 +1,41 @@
 version(Have_autowrap_pynih)
     import autowrap.pynih;
+else version(Have_autowrap_csharp)
+    import autowrap.csharp;
 else
     import autowrap.python;
+
+
+immutable Modules modules = Modules(Module("prefix"),
+                                    Module("adder"),
+                                    Module("structs"),
+                                    Module("templates"),
+                                    Module("api"),
+                                    Module("wrap_all", Yes.alwaysExport));
 
 version(Have_autowrap_pynih) {
     enum str = wrapDlang!(
         LibraryName("simple"),
-        Modules(
-            "prefix",
-            "adder",
-            "structs",
-            "templates",
-            "api",
-            Module("wrap_all", Yes.alwaysExport)
-        ),
+        modules,
     );
 
     //pragma(msg,str);
     mixin(str);
 }
+else version(Have_autowrap_csharp) {
+    mixin(
+        wrapCSharp(
+            modules,
+            OutputFileName("simple.cs"),
+            autowrap.csharp.LibraryName("simple"),
+            RootNamespace("Autowrap.CSharp.Tests.simple")
+        )
+    );
+}
 else
     mixin(
         wrapAll(
             LibraryName("simple"),
-            Modules(
-                "prefix", "adder", "structs", "templates", "api",
-                Module("wrap_all", Yes.alwaysExport)
-            ),
+            modules,
         )
     );
